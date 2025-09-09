@@ -57,6 +57,17 @@ export async function handler(chatUpdate) {
     m.exp = 0;
     m.coin = false;
 
+//     console.log(chalk.yellow(`
+// ╭ 🐬 ${new Date().toLocaleDateString()}
+// │                                                 
+// │   ID:        ${m.key.id}                        
+// │   Remitente: ${m.sender} (~${m.pushName || 'Sin nombre'})         
+// │   Chat:      ${m.chat}                          
+// │   Tipo:      ${m.mtype}                         
+// │   Texto:     ${m.text?.substring(0, 50)}...
+// ╰─────────────────────────────────────────────────╯
+//     `));
+
     try {
       let user = global.db.data.users[m.sender];
       if (typeof user !== "object") global.db.data.users[m.sender] = {};
@@ -232,8 +243,48 @@ export async function handler(chatUpdate) {
 
     const allOwnerNumbers = [...new Set([...ownerNumbers, ...additionalOwners])]
 
-    const isROwner = allOwnerNumbers.includes(senderNumber)
+    // console.log(chalk.cyan(`
+    // ╭ 🔧 DOLPHIN OWNER VALIDATION DEBUG EXTENDIDO
+    // │ Raw sender: ${m.sender}
+    // │ Sender number extracted: ${senderNumber}
+    // │ Sender length: ${senderNumber.length}
+    // │ 
+    // │ Global owner raw: ${JSON.stringify(global.owner)}
+    // │ Owner numbers extracted: ${ownerNumbers.join(', ')}
+    // │ Additional owners: ${additionalOwners.join(', ')}
+    // │ All owners combined: ${allOwnerNumbers.join(', ')}
+    // │
+    // │ Checking matches:
+    // ${allOwnerNumbers.map(num => `│   ${num} === ${senderNumber} ? ${num === senderNumber}`).join('\n')}
+    // ╰─────────────────────────────────────────────────╯
+    // `))
+
+    const senderVariants = [
+        senderNumber,
+        senderNumber.replace(/^52/, ''), 
+        '52' + senderNumber.replace(/^52/, ''),
+        senderNumber.substring(2),
+        '1' + senderNumber
+    ];
+
+    // console.log(chalk.yellow(`
+    // ╭ 🔄 DOLPHIN SENDER VARIANTS
+    // │ Original: ${senderNumber}
+    // ${senderVariants.map((variant, i) => `│ Variant ${i}: ${variant}`).join('\n')}
+    // ╰─────────────────────────────────────────────────╯
+    // `))
+
+    const isROwner = allOwnerNumbers.some(owner => senderVariants.includes(owner)) || 
+                     senderVariants.some(variant => allOwnerNumbers.includes(variant))
     const isOwner = isROwner || m.fromMe
+
+    // console.log(chalk.blue(`
+    // ╭ 🔍 DOLPHIN FINAL VALIDATION
+    // │ isROwner: ${isROwner}
+    // │ isOwner: ${isOwner}
+    // │ fromMe: ${m.fromMe}
+    // ╰─────────────────────────────────────────────────╯
+    // `))
 
     const user = m.isGroup
       ? participants.find((u) => normalizeJid(u.id) === senderNumber)
