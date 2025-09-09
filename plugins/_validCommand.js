@@ -65,7 +65,7 @@ export async function before(m, { conn }) {
           description: null,
           previewType: "PHOTO",
           thumbnailUrl: 'https://qu.ax/OmQYc.png',
-          sourceUrl: 'https://github.com/El-brayan502/RoxyBot-MD/',
+          sourceUrl: 'https://github.com/CARLOSGRCIAGRCIA/DolphinV2/',
           mediaType: 1,
           renderLargerThumbnail: true
         }
@@ -99,7 +99,7 @@ export async function before(m, { conn }) {
               title: 'Carlos G',
               body: '𝑫𝒐𝒍𝒑𝒉𝑰𝒏𝑩𝒐𝒕',
               thumbnailUrl: 'https://qu.ax/OmQYc.png',
-              sourceUrl: 'https://github.com/El-brayan502/RoxyBot-MD/',
+              sourceUrl: 'https://github.com/CARLOSGRCIAGRCIA/DolphinV2/',
               mediaType: 1,
               renderLargerThumbnail: true
             }
@@ -126,7 +126,7 @@ export async function before(m, { conn }) {
             title: 'Carlos G',
             body: '𝑫𝒐𝒍𝒑𝒉𝑰𝒏𝑩𝒐𝒕',
             thumbnailUrl: 'https://qu.ax/OmQYc.png',
-            sourceUrl: 'https://github.com/El-brayan502/RoxyBot-MD/',
+            sourceUrl: 'https://github.com/CARLOSGRCIAGRCIA/DolphinV2/',
             mediaType: 1,
             renderLargerThumbnail: true
           }

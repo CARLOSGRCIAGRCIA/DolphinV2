@@ -16,7 +16,6 @@ ${emoji} Mensaje: ${oi}
 };
 handler.help = ['admins <texto>'];
 handler.tags = ['grupo'];
-// regex detect A word without case sensitive
 handler.customPrefix = /a|@/i;
 handler.command = /^(admins|@admins|dmins)$/i;
 handler.group = true;

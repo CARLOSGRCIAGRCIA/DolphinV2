@@ -24,6 +24,6 @@ var handler = async (m, { text, usedPrefix, command }) => {
 }
 
 handler.tags = ['tools'];
-handler.help = ['nagiai'];
+handler.help = ['Dolphinai'];
 handler.command = ['nakanoai'];
 export default handler;

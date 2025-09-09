@@ -6,14 +6,6 @@ const handler = async (m, { conn, text, args, usedPrefix, command }) => {
     ([number]) => number.replace(/[^0-9]/g, "") === normalizedSender
   );
 
-  if (!isROwner) {
-    return conn.reply(
-      m.chat,
-      `${emoji} Este comando es solo para propietarios principales.`,
-      m
-    );
-  }
-
   const why = `${emoji} Por favor, menciona a un usuario para agregar o quitar como owner.`;
   const who = m.mentionedJid[0]
     ? m.mentionedJid[0]

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://files.catbox.moe/2p3mon.png" alt="NagiBot Banner" width="100%"/>
+  <img src="https://files.catbox.moe/2p3mon.png" alt="DolphinBot Banner" width="100%"/>
 </p>
 
 <h1 align="center">⚡ Dolphin Bot multi-device bot for WhatsApp</h1>
@@ -11,10 +11,10 @@
 ---
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/El-brayan502/NagiBotV2?style=for-the-badge&color=yellow" />
-  <img src="https://img.shields.io/github/forks/El-brayan502/NagiBotV2?style=for-the-badge&color=orange" />
-  <img src="https://img.shields.io/github/issues/El-brayan502/NagiBotV2?style=for-the-badge&color=blue" />
-  <img src="https://komarev.com/ghpvc/?username=El-brayan502&label=Vistas&style=for-the-badge&color=brightgreen" />
+  <img src="https://img.shields.io/github/stars/CARLOSGRCIAGRCIA/DolphinV2?style=for-the-badge&color=yellow" />
+  <img src="https://img.shields.io/github/forks/CARLOSGRCIAGRCIA/DolphinV2?style=for-the-badge&color=orange" />
+  <img src="https://img.shields.io/github/issues/CARLOSGRCIAGRCIA/DolphinV2?style=for-the-badge&color=blue" />
+  <img src="https://komarev.com/ghpvc/?username=CARLOSGRCIAGRCIA&label=Vistas&style=for-the-badge&color=brightgreen" />
 </p>
 
 ---
@@ -31,7 +31,7 @@
 
 ---
 
-## 🚀 Quick Installation
+## Start bot from termux
 
 ```bash
 termux-setup-storage
@@ -42,7 +42,36 @@ git clone https://github.com/CARLOSGRCIAGRCIA/DolphinBot.git
 ```bash
 cd DolphinBot
 ```
-*start the full bot*
+*install dependencies*
+
+```bash
+npm install
+```
+*to start*
+
+```bash
+npm start 
+```
+
+*to start directly with qr*
+
+
+```bash
+npm run qr 
+```
+
+
+
+## Start bot from PC (You need to have Git installed if you are using Windows)
+
+*clone repository*
+```bash
+git clone https://github.com/CARLOSGRCIAGRCIA/DolphinBot.git
+```
+```bash
+cd DolphinBot
+```
+*install dependencies*
 
 ```bash
 npm install

@@ -4,13 +4,13 @@
 import fs from 'fs';
 
 const paths = {
-  NagiJadiBot: `./${jadi}/`,
-  NagiSession: `./${sessions}/`
+  DolphinJadibts: `./${jadi}/`,
+  DolphinSession: `./${sessions}/`
 };
 
 function cleanSubbotDirectories() {
   for (const [name, path] of Object.entries(paths)) {
-    if (name === 'NagiSession') continue; // Skip SanSession for this function
+    if (name === 'DolphinSession') continue; // Skip SanSession for this function
 
     fs.readdir(path, (err, subbotDirs) => {
       if (err) {
@@ -64,7 +64,7 @@ function cleanSubbotDirectories() {
 }
 
 function cleanNakanoSession() {
-  const sessionPath = paths.NagiSession;
+  const sessionPath = paths.DolphinSession;
 
   fs.readdir(sessionPath, (err, files) => {
     if (err) {

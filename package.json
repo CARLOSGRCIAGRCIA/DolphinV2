@@ -24,10 +24,10 @@
 },
 "repository": {
 "type": "git",
-"url": "git+https://github.com/El-brayan502/NagiBotV3.git"
+"url": "git+https://github.com/CARLOSGRCIAGRCIA/DolphinV2.git"
 },
 "bugs": {
-"url": "https://github.com/El-brayan502/NagiBotV3/issues"
+"url": "https://github.com/CARLOSGRCIAGRCIA/DolphinV2/issues"
 },
 "license": "GPL-3.0-or-later",
 "dependencies": {

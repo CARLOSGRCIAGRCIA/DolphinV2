@@ -34,8 +34,8 @@ global.asistencia = 'Wa.me50231458537'
 global.namechannel = '𝑫𝑶𝑳𝑷𝑯𝑰𝑵－Ｖ²'
 global.namegrupo = '𝑫𝑶𝑳𝑷𝑯𝑰𝑵－Ｖ²'
 global.namecomu = '𝙏𝙃𝙀 𝘽𝙍𝙊𝙇𝙔𝘽𝙊𝙏 𝘾𝘼𝙉𝘼𝙇'
-global.listo = '⚽️ ＡＱＵＩ ＴＩＥＮＥＳ ＭＥＮ'
-global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://files.catbox.moe/y817pt.jpg')
+global.listo = '🐬 ＡＱＵＩ ＴＩＥＮＥＳ ＭＥＮ'
+global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://files.catbox.moe/2p3mon.png')
 
 //Ids channel
 global.idchannel = '120363312092804854@newsletter'
@@ -58,19 +58,19 @@ global.done = '✅'
 global.error = '✖️'
 global.msm = '⚠️'
 
-//Emojis determinado de nagi bot
-global.emoji = '⚽️'
-global.emoji2 = '⚽️'
-global.emoji3 = '⚽️'
-global.emoji4 = '⚽️'
-global.emoji5 = '⚽️'
+//Emojis determinado de Dolphin bot
+global.emoji = '🐬'
+global.emoji2 = '🐬'
+global.emoji3 = '🐬'
+global.emoji4 = '🐬'
+global.emoji5 = '🐬'
 global.emojis = [emoji, emoji2, emoji3, emoji4].getRandom()
 
 //mensaje en espera
-global.wait = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
-global.waitt = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
-global.waittt = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
-global.waitttt = '⚽️ 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
+global.wait = '🐬 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
+global.waitt = '🐬 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
+global.waittt = '🐬 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
+global.waitttt = '🐬 𝙀𝙣𝙫𝙞𝙖𝙣𝙙𝙤 𝙩𝙚𝙣 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖...';
 
 //Enlaces
 var grupo = 'https://chat.whatsapp.com/I2g1kNUSxf75HmZp5Nr3Ua'
@@ -114,11 +114,11 @@ global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo
 }}, { quoted: m }
 
 global.icono = [ 
-'https://files.catbox.moe/taaoet.jpg',
+'https://files.catbox.moe/2p3mon.png',
 ].getRandom()
 
 global.menum = [ 
-'https://files.catbox.moe/r7d3xs.jpg',
+'https://files.catbox.moe/2p3mon.png',
 ].getRandom()
 
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: global.canalIdM, serverMessageId: 100, newsletterName: global.canalNombreM, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }, }, }}

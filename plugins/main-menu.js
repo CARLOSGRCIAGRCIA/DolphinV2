@@ -41,6 +41,19 @@ let tags = {
   'owner': ' OWNER ', 
 };
 
+let saludo
+let hora = new Date().getUTCHours() - 6 
+
+if (hora < 0) hora += 24 
+
+if (hora >= 5 && hora < 13) {
+  saludo = '🌊 ¡Chasquido matutino! Que las olas te traigan alegría hoy 🐠'
+} else if (hora >= 13 && hora < 18) {
+  saludo = '🌞 ¡Silbido soleado! ¿En qué puedas nadar junto a ti? 🌺'
+} else {
+  saludo = '🌙 ¡Burbujeo nocturno! ¿No deberías estar descansando en el arrecife? 💤'
+}
+
 const defaultMenu = {
   before: `--------[ *I N F O - U S E R* ]----------
 
@@ -60,7 +73,7 @@ const defaultMenu = {
   header: '┏━━━━━━━━━━━━━━━━\n┃%category\n┣━━━━━━━━━━━━━━━━',
   body: '┃ %cmd',
   footer: '┗━━━━━━━━━━━━━━━━',
-  after: `© NagiBot-MD`, // Definido directamente
+  after: `© Dolphin-MD`,
 };
 
 let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
@@ -68,7 +81,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let tag = `@${m.sender.split("@")[0]}`
     let mode = global.opts?.["self"] ? "Privado" : "Publico"
     
-    // Validar usuario en DB
     if (!global.db?.data?.users?.[m.sender]) {
       global.db.data.users[m.sender] = {
         exp: 0,
@@ -79,7 +91,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     
     let { exp = 0, limit = 0, level = 0 } = global.db.data.users[m.sender] || {};
     
-    // XP Range con validación
     let min = 0, xp = 0, max = 0;
     try {
       ({ min, xp, max } = xpRange(level, global.multiplier || 1));
@@ -99,7 +110,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let uptime = clockString(_uptime);
     let totalreg = Object.keys(global.db?.data?.users || {}).length || 0;
 
-    // Construir menú con comandos
     let help = [];
     try {
       help = Object.values(global.plugins || {})
@@ -117,7 +127,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       console.log('⚠️ Error cargando plugins:', pluginError.message);
     }
 
-    // Agregar tags dinámicos
     for (let plugin of help) {
       if (plugin && 'tags' in plugin) {
         for (let t of plugin.tags) {
@@ -126,13 +135,19 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       }
     }
 
-    let before = `--------[ *I N F O - U S E R* ]----------
+    let before = `
+
+𝘽𝙞𝙚𝙣𝙫𝙚𝙣𝙞𝙙𝙤 𝙖 𝘿𝙤𝙡𝙥𝙝𝙞𝙣 𝘽𝙤𝙩 🐬
+
+${saludo}, *${name}*!
+
+--------[ *I N F O - U S E R* ]----------
 
 ▧ Nᴏᴍʙʀᴇ : ${name}
 ▧ Exᴘᴇʀɪᴇɴᴄɪᴀ: ${exp - min}
 ▧ Nɪᴠᴇʟ : ${level}
 
---------[ *I N F O - B OT Z* ]----------
+--------[ *I N F O - B O T* ]----------
 
 ▧ Esᴛᴀᴅᴏ : ${mode}
 ▧ Bᴀɪʟᴇʏs : Baileys MD
@@ -145,7 +160,7 @@ ${readMore}
     let header = '┏━━━━━━━━━━━━━━━━\n┃%category\n┣━━━━━━━━━━━━━━━━';
     let body = '┃ %cmd';
     let footer = '┗━━━━━━━━━━━━━━━━';
-    let after = '© 𝘿𝙊𝙇𝙋𝙊𝙃𝙄𝙉 𝘽𝙊𝙏-MD';
+    let after = '© 𝘿𝙊𝙇𝙋𝙃𝙄𝙉 𝘽𝙊𝙏-MD';
 
     let _text = [
       before,
