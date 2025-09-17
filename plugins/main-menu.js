@@ -221,7 +221,7 @@ ${readMore}
 
 handler.help = ['allmenu'];
 handler.tags = ['main'];
-handler.command = ['allmenu', 'menucompleto', 'menúcompleto', 'help', 'menu2'];
+handler.command = ['allmenu', 'menucompleto', 'menúcompleto', 'help', 'menu2', 'menu'];
 handler.register = true;
 export default handler;
 

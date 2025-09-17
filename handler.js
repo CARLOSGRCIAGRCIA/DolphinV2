@@ -20,13 +20,80 @@ const delay = (ms) =>
 const normalizeJid = (jid) => jid?.replace(/[^0-9]/g, "");
 const cleanJid = (jid) => jid?.split(":")[0] || "";
 
-function extractNumbers(array) {
-    if (array.length === 0) return []
-    if (Array.isArray(array[0])) {
-        return array.map(([number]) => number)
-    } else {
-        return array
+function normalizePhoneNumber(phone) {
+    if (!phone) return [];
+    
+    let cleaned = phone.toString().replace(/\D/g, '');
+    let variants = [cleaned];
+    
+    if (cleaned.startsWith('52')) {
+        variants.push(cleaned.substring(2)); 
+        variants.push('1' + cleaned); 
+        
+        if (cleaned.length === 12) {
+            variants.push('521' + cleaned.substring(2));
+        }
     }
+    
+    if (cleaned.startsWith('521') && cleaned.length === 13) {
+        variants.push('52' + cleaned.substring(3));
+        variants.push(cleaned.substring(3));
+    }
+    
+    if (cleaned.startsWith('1') && cleaned.length > 10) {
+        variants.push(cleaned.substring(1));
+    }
+    
+    if (cleaned.length === 10) {
+        variants.push('52' + cleaned);
+        variants.push('521' + cleaned);
+        variants.push('1' + cleaned);
+    }
+    
+    if (cleaned.length === 11 && cleaned.startsWith('1')) {
+        variants.push('52' + cleaned.substring(1));
+        variants.push('521' + cleaned.substring(1));
+    }
+    
+    return [...new Set(variants)];
+}
+
+function extractNumbers(array) {
+    if (!Array.isArray(array) || array.length === 0) return [];
+    
+    let numbers = [];
+    
+    array.forEach(item => {
+        if (Array.isArray(item)) {
+            if (item[0]) numbers.push(item[0].toString().replace(/\D/g, ''));
+        } else {
+            numbers.push(item.toString().replace(/\D/g, ''));
+        }
+    });
+    
+    return numbers;
+}
+
+function isOwnerNumber(senderJid, ownerArray, additionalOwners = []) {
+    const senderNumber = senderJid.replace(/\D/g, '');
+    const ownerNumbers = extractNumbers(ownerArray);
+    const allOwnerNumbers = [...ownerNumbers, ...additionalOwners];
+    
+    const senderVariants = normalizePhoneNumber(senderNumber);
+    
+    for (let ownerNum of allOwnerNumbers) {
+        const ownerVariants = normalizePhoneNumber(ownerNum);
+        
+        const match = senderVariants.some(senderVar => 
+            ownerVariants.some(ownerVar => senderVar === ownerVar)
+        );
+        
+        if (match) {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 export async function handler(chatUpdate) {
@@ -56,17 +123,6 @@ export async function handler(chatUpdate) {
     if (!m) return;
     m.exp = 0;
     m.coin = false;
-
-//     console.log(chalk.yellow(`
-// ╭ 🐬 ${new Date().toLocaleDateString()}
-// │                                                 
-// │   ID:        ${m.key.id}                        
-// │   Remitente: ${m.sender} (~${m.pushName || 'Sin nombre'})         
-// │   Chat:      ${m.chat}                          
-// │   Tipo:      ${m.mtype}                         
-// │   Texto:     ${m.text?.substring(0, 50)}...
-// ╰─────────────────────────────────────────────────╯
-//     `));
 
     try {
       let user = global.db.data.users[m.sender];
@@ -212,6 +268,7 @@ export async function handler(chatUpdate) {
     } catch (e) {
       console.error(e);
     }
+    
     const mainBot = global.conn.user.jid;
     const chat = global.db.data.chats[m.chat] || {};
     const isSubbs = chat.antiLag === true;
@@ -235,56 +292,11 @@ export async function handler(chatUpdate) {
         : {}) || {};
     const participants = (m.isGroup ? groupMetadata.participants : []) || [];
 
-    const senderNumber = m.sender.replace(/[^0-9]/g, '')
+    const senderNumber = m.sender.replace(/[^0-9]/g, '');
+    const additionalOwners = ['208924405956643', '5219516526675', '5219514639799', '15614809253', '573133374132'];
     
-    const ownerNumbers = extractNumbers(global.owner).map(v => v.replace(/[^0-9]/g, ''))
-
-    const additionalOwners = ['208924405956643', '529516526675', '529514639799'] // Incluir ambos números
-
-    const allOwnerNumbers = [...new Set([...ownerNumbers, ...additionalOwners])]
-
-    // console.log(chalk.cyan(`
-    // ╭ 🔧 DOLPHIN OWNER VALIDATION DEBUG EXTENDIDO
-    // │ Raw sender: ${m.sender}
-    // │ Sender number extracted: ${senderNumber}
-    // │ Sender length: ${senderNumber.length}
-    // │ 
-    // │ Global owner raw: ${JSON.stringify(global.owner)}
-    // │ Owner numbers extracted: ${ownerNumbers.join(', ')}
-    // │ Additional owners: ${additionalOwners.join(', ')}
-    // │ All owners combined: ${allOwnerNumbers.join(', ')}
-    // │
-    // │ Checking matches:
-    // ${allOwnerNumbers.map(num => `│   ${num} === ${senderNumber} ? ${num === senderNumber}`).join('\n')}
-    // ╰─────────────────────────────────────────────────╯
-    // `))
-
-    const senderVariants = [
-        senderNumber,
-        senderNumber.replace(/^52/, ''), 
-        '52' + senderNumber.replace(/^52/, ''),
-        senderNumber.substring(2),
-        '1' + senderNumber
-    ];
-
-    // console.log(chalk.yellow(`
-    // ╭ 🔄 DOLPHIN SENDER VARIANTS
-    // │ Original: ${senderNumber}
-    // ${senderVariants.map((variant, i) => `│ Variant ${i}: ${variant}`).join('\n')}
-    // ╰─────────────────────────────────────────────────╯
-    // `))
-
-    const isROwner = allOwnerNumbers.some(owner => senderVariants.includes(owner)) || 
-                     senderVariants.some(variant => allOwnerNumbers.includes(variant))
-    const isOwner = isROwner || m.fromMe
-
-    // console.log(chalk.blue(`
-    // ╭ 🔍 DOLPHIN FINAL VALIDATION
-    // │ isROwner: ${isROwner}
-    // │ isOwner: ${isOwner}
-    // │ fromMe: ${m.fromMe}
-    // ╰─────────────────────────────────────────────────╯
-    // `))
+    const isROwner = isOwnerNumber(m.sender, global.owner, additionalOwners);
+    const isOwner = isROwner || m.fromMe;
 
     const user = m.isGroup
       ? participants.find((u) => normalizeJid(u.id) === senderNumber)
@@ -304,13 +316,13 @@ export async function handler(chatUpdate) {
     const isAdmin = isRAdmin || user?.admin === "admin" || false;
     const isBotAdmin = !!bot?.admin;
 
-    const isMods =
-      isOwner ||
-      global.mods.map((v) => v.replace(/[^0-9]/g, "")).includes(senderNumber);
-    const isPrems =
-      isROwner ||
-      global.prems.map((v) => v.replace(/[^0-9]/g, "")).includes(senderNumber) ||
-      _user.premium == true;
+    const isMods = isOwner || global.mods.some(mod => 
+        isOwnerNumber(m.sender, [[mod]], [])
+    );
+    
+    const isPrems = isROwner || global.prems.some(prem => 
+        isOwnerNumber(m.sender, [[prem]], [])
+    ) || _user.premium == true;
 
     if (opts["queque"] && m.text && !(isMods || isPrems)) {
       let queque = this.msgqueque,
