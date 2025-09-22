@@ -24,7 +24,7 @@ var handler = async (m, { conn, text, participants, isOwner, isAdmin }) => {
         },
         { quoted: null, userJid: conn.user.id }
       ),
-      (text || q.text) + `\n\n> Dolphin 🐬`, 
+      (text || q.text) + `\n\n> *_DolphinBot 🐬_*`, 
       conn.user.jid,
       { mentions: users }
     );

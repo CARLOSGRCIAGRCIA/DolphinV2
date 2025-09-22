@@ -16,7 +16,7 @@ var handler = async (m, { conn, text, isROwner }) => {
   try {
     let chats = Object.keys(conn.chats).filter(
       (chat) =>
-        chat.endsWith("@g.us") && 
+        chat.endsWith("@g.us") &&
         conn.chats[chat].id &&
         !conn.chats[chat].read_only
     );
@@ -33,8 +33,6 @@ var handler = async (m, { conn, text, isROwner }) => {
 
     let enviados = 0;
     let errores = 0;
-    const more = String.fromCharCode(8206);
-    const masss = more.repeat(850);
 
     for (let chat of chats) {
       try {
@@ -44,11 +42,13 @@ var handler = async (m, { conn, text, isROwner }) => {
         let participants = groupMetadata.participants || [];
         let users = participants.map((u) => conn.decodeJid(u.id));
 
+        const mensaje = `${text}\n\n> *_DolphinBot 🐬_*`;
+
         await conn.relayMessage(
           chat,
           {
             extendedTextMessage: {
-              text: `${masss}\n${text}\n`,
+              text: mensaje,
               contextInfo: {
                 mentionedJid: users,
               },

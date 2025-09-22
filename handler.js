@@ -206,17 +206,17 @@ export async function handler(chatUpdate) {
       if (chat) {
         if (!("isBanned" in chat)) chat.isBanned = false;
         if (!("sAutoresponder" in chat)) chat.sAutoresponder = "";
-        if (!("welcome" in chat)) chat.welcome = true;
+        if (!("welcome" in chat)) chat.welcome = false;
         if (!("autolevelup" in chat)) chat.autolevelup = false;
         if (!("autoAceptar" in chat)) chat.autoAceptar = false;
         if (!("autosticker" in chat)) chat.autosticker = false;
         if (!("autoRechazar" in chat)) chat.autoRechazar = false;
         if (!("autoresponder" in chat)) chat.autoresponder = false;
-        if (!("detect" in chat)) chat.detect = true;
+        if (!("detect" in chat)) chat.detect = false;
         if (!("antiBot" in chat)) chat.antiBot = false;
         if (!("antiBot2" in chat)) chat.antiBot2 = false;
         if (!("modoadmin" in chat)) chat.modoadmin = false;
-        if (!("antiLink" in chat)) chat.antiLink = true;
+        if (!("antiLink" in chat)) chat.antiLink = false;
         if (!("antiImg" in chat)) chat.antiImg = false;
         if (!("reaction" in chat)) chat.reaction = false;
         if (!("nsfw" in chat)) chat.nsfw = false;
@@ -229,17 +229,17 @@ export async function handler(chatUpdate) {
         global.db.data.chats[m.chat] = {
           isBanned: false,
           sAutoresponder: "",
-          welcome: true,
+          welcome: false,
           autolevelup: false,
           autoresponder: false,
           delete: false,
           autoAceptar: false,
           autoRechazar: false,
-          detect: true,
+          detect: false,
           antiBot: false,
           antiBot2: false,
           modoadmin: false,
-          antiLink: true,
+          antiLink: false,
           antifake: false,
           reaction: false,
           nsfw: false,
@@ -252,14 +252,14 @@ export async function handler(chatUpdate) {
         global.db.data.settings[this.user.jid] = {};
       if (settings) {
         if (!("self" in settings)) settings.self = false;
-        if (!("restrict" in settings)) settings.restrict = true;
+        if (!("restrict" in settings)) settings.restrict = false;
         if (!("jadibotmd" in settings)) settings.jadibotmd = true;
         if (!("antiPrivate" in settings)) settings.antiPrivate = false;
         if (!("autoread" in settings)) settings.autoread = false;
       } else
         global.db.data.settings[this.user.jid] = {
           self: false,
-          restrict: true,
+          restrict: false,
           jadibotmd: true,
           antiPrivate: false,
           autoread: false,
