@@ -89,13 +89,13 @@ global.photoSity = [catalogo]
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.gp1 = 'https://whatsapp.com/channel/0029VajUPbECxoB0cYovo60W'
+global.gp1 = 'https://chat.whatsapp.com/EdND7QAHE9w0XPYGx2ZfQw'
 global.comunidad1 = 'https://chat.whatsapp.com/DeJvBuS7QgB3Ybp1BZulWL'
-global.channel = 'https://whatsapp.com/channel/0029VajUPbECxoB0cYovo60W'
-global.channel2 = 'https://whatsapp.com/channel/0029VajUPbECxoB0cYovo60W'
-global.md = 'https://github.com/CARLOSGRCIAGRCIA/DolphinBot'
+global.channel = 'https://whatsapp.com/channel/0029VbAfBzIKGGGKJWp5tT3L'
+global.channel2 = 'https://whatsapp.com/channel/0029VbAfBzIKGGGKJWp5tT3L'
+global.md = 'https://github.com/CARLOSGRCIAGRCIA/DolphinV2'
 global.correo = 'cgarciagarcia729@gmail.com'
-global.cn ='https://whatsapp.com/channel/0029Vb4cQJu2f3EB7BS7o11M';
+global.cn ='https://whatsapp.com/channel/0029VbAfBzIKGGGKJWp5tT3L';
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 

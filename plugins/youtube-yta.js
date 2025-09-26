@@ -1,89 +1,105 @@
-import fetch from "node-fetch";
-import axios from "axios";
+import fetch from 'node-fetch';
+import crypto from 'crypto';
 
-const formatAudio = ['mp3', 'm4a', 'webm', 'aac', 'flac', 'opus', 'ogg', 'wav'];
+const NEVI_API_KEY = 'ellen'; // creditos a nevi-dev 
 
-const ddownr = {
-  download: async (url, format) => {
-    const config = {
-      method: 'GET',
-      url: `https://p.oceansaver.in/ajax/download.php?format=${format}&url=${encodeURIComponent(url)}&api=dfcb6d76f2f6a9894gjkege8a4ab232222`,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
-    };
+const newsletterJid = '120363418071540900@newsletter';
+const newsletterName = '𝑫𝑶𝑳𝑷𝑯𝑰𝑵𝑩𝑶𝑻 𝑫𝑶𝑾𝑵𝑳𝑶𝑨𝑫𝑺';
 
-    try {
-      const response = await axios.request(config);
-      if (response.data && response.data.success) {
-        const { id } = response.data;
-        const downloadUrl = await ddownr.cekProgress(id);
-        return downloadUrl;
-      } else {
-        throw new Error('Fallo al obtener los detalles del video.');
-      }
-    } catch (error) {
-      throw error;
-    }
-  },
 
-  cekProgress: async (id) => {
-    const config = {
-      method: 'GET',
-      url: `https://p.oceansaver.in/ajax/progress.php?id=${id}`,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
-    };
+var handler = async (m, { conn, args, usedPrefix, command }) => {
+    const name = conn.getName(m.sender);
 
-    try {
-      while (true) {
-        const response = await axios.request(config);
-        if (response.data && response.data.success && response.data.progress === 1000) {
-          return response.data.download_url;
+    const contextInfo = {
+        mentionedJid: [m.sender],
+        isForwarded: true,
+        forwardingScore: 999,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid,
+            newsletterName,
+            serverMessageId: -1
+        },
+        externalAdReply: {
+            title: '𝑫𝑶𝑳𝑷𝑯𝑰𝑵𝑩𝑶𝑻 𝑫𝑶𝑾𝑵𝑳𝑶𝑨𝑫𝑺',
+            body: `✦ Esperando tu solicitud, ${name}.`,
+            thumbnail: global.icons,
+            sourceUrl: global.redes,
+            mediaType: 1,
+            renderLargerThumbnail: false
         }
-        await new Promise(resolve => setTimeout(resolve, 5000));
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-};
+    };
 
-const handler = async (m, { conn, text, command }) => {
-  try {
-    const args = text.trim().split(' ');
+    if (!args[0]) {
+        return conn.reply(
+            m.chat,
+            `Necesito el enlace de un video para continuar. Por favor, proporciona un enlace de YouTube.\n\n_Ejemplo: ${usedPrefix + command} https://youtu.be/KHgllosZ3kA`,
+            m,
+            { contextInfo, quoted: m }
+        );
+    }
+
+    await conn.reply(
+        m.chat,
+        `Procesando la solicitud de audio. Esto puede tardar unos momentos.`,
+        m,
+        { contextInfo, quoted: m }
+    );
+
     const url = args[0];
-    const format = args[1] || 'mp3';
 
-    if (!url) {
-      return conn.reply(m.chat, `💜 Ingresa la URL de un video de YouTube.`, m);
-    }
+    try {
+        const neviApiUrl = `http://neviapi.ddns.net:5000/download`;
+        const res = await fetch(neviApiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-KEY': NEVI_API_KEY,
+            },
+            body: JSON.stringify({
+                url: url,
+                format: "mp3"
+            }),
+        });
 
-    const isValidUrl = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/.test(url);
-    if (!isValidUrl) {
-      return m.reply('Por favor, proporciona una URL válida de YouTube.');
-    }
+        const json = await res.json();
+        
+        if (json.status === "success" && json.download_link) {
+            const titleFromApi = json.title || 'Título Desconocido';
+            
+            await conn.sendMessage(
+                m.chat, {
+                    audio: { url: json.download_link },
+                    mimetype: 'audio/mpeg',
+                    fileName: titleFromApi + '.mp3',
+                    ptt: false,
+                    caption: `
+*¡Audio descargado con éxito!*
+🎵 *Título:* ${titleFromApi}
+`
+                }, { contextInfo, quoted: m }
+            );
 
-    if (!formatAudio.includes(format.toLowerCase())) {
-      return m.reply(`Formato no soportado. Los formatos válidos son: ${formatAudio.join(', ')}`);
-    }
+        } else {
+            throw new Error(`No se pudo descargar el audio. Razón: ${json.message || 'Respuesta inválida del servidor.'}`);
+        }
 
-    const downloadUrl = await ddownr.download(url, format);
-    if (downloadUrl) {
-      await conn.sendMessage(m.chat, {
-        audio: { url: downloadUrl },
-        mimetype: "audio/mpeg"
-      }, { quoted: m });
-    } else {
-      return m.reply(`No se pudo descargar el audio.`);
+    } catch (e) {
+        console.error(e);
+
+        await conn.reply(
+            m.chat,
+            `⚠️ Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.\nDetalles: ${e.message}`,
+            m,
+            { contextInfo, quoted: m }
+        );
     }
-  } catch (error) {
-    return m.reply(`Ocurrió un error: ${error.message}`);
-  }
 };
 
-handler.command = handler.help = ['ytmp3', 'yta'];
-handler.tags = ['downloader'];
+handler.help = ['ytmp3'].map(v => v + ' <link>');
+handler.tags = ['descargas'];
+handler.command = ['ytmp3', 'ytaudio', 'mp3'];
+handler.register = true;
+handler.limit = true;
+handler.coin = 2;
 
 export default handler;

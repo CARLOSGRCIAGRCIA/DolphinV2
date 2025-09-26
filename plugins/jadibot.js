@@ -1,17 +1,17 @@
 import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmSync, promises as fsPromises } from "fs";
-import path, { join } from 'path'; 
+import path, { join } from 'path';
 import ws from 'ws';
 
 const fs = { ...fsPromises, existsSync };
 
 let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner }) => {
-    const isCommand1 = /^(deletesesion|deletebot|deletesession|deletesesaion)$/i.test(command);  
-    const isCommand2 = /^(stop|pausarai|pausarbot)$/i.test(command);  
-    const isCommand3 = /^(bots|sockets|socket)$/i.test(command);   
+    const isCommand1 = /^(deletesesion|deletebot|deletesession|deletesesaion)$/i.test(command);
+    const isCommand2 = /^(stop|pausarai|pausarbot)$/i.test(command);
+    const isCommand3 = /^(bots|sockets|socket)$/i.test(command);
 
     async function reportError(e) {
         await m.reply('Ocurrió un error en la operación. Por favor, inténtelo de nuevo más tarde.');
-        console.error(e); 
+        console.error(e);
     }
 
     async function deleteSession(uniqid) {
@@ -21,7 +21,7 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
         }
 
         if (global.conn.user.jid !== conn.user.jid) {
-            return `Use este comando al *Bot* principal.\n\n*https://api.whatsapp.com/send/?phone=${global.conn.user.jid.split`@`[0]}&text=${usedPrefix + command}&type=phone_number&app_absent=0*`; 
+            return `Use este comando al *Bot* principal.\n\n*https://api.whatsapp.com/send/?phone=${global.conn.user.jid.split`@`[0]}&text=${usedPrefix + command}&type=phone_number&app_absent=0*`;
         } else {
             try {
                 await fs.rmdir(path, { recursive: true, force: true });
@@ -67,7 +67,7 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
         return responseText;
     }
 
-    switch (true) {       
+    switch (true) {
         case isCommand1:
             const who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
             const uniqid = `${who.split`@`[0]}`;
@@ -81,14 +81,14 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
             } else {
                 await conn.reply(m.chat, `*${botname}* desactivada.`, m);
                 conn.ws.close();
-            }  
+            }
             break;
 
         case isCommand3:
             const botListResponse = await listActiveBots();
             let imageUrl = 'https://qu.ax/SnmFS.jpg';
             await _envio.sendMessage(m.chat, { image: { url: imageUrl }, caption: botListResponse }, { quoted: m });
-            break;   
+            break;
     }
 };
 

@@ -79,7 +79,7 @@ export async function nakanoJadiBot(options) {
     if (!fs.existsSync(pathnakanoJadiBot)) {
         fs.mkdirSync(pathnakanoJadiBot, { recursive: true });
     }
-    
+
     try {
         args[0] && args[0] != undefined ? fs.writeFileSync(pathCreds, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : "";
     } catch {
@@ -95,7 +95,7 @@ export async function nakanoJadiBot(options) {
         }
 
         let { version, isLatest } = await fetchLatestBaileysVersion();
-        const msgRetry = () => {};
+        const msgRetry = () => { };
         const msgRetryCache = new NodeCache();
         const { state, saveCreds } = await useMultiFileAuthState(pathnakanoJadiBot);
 
@@ -149,7 +149,7 @@ export async function nakanoJadiBot(options) {
                 if (!loaded) {
                     try {
                         sock.ws.close();
-                    } catch {}
+                    } catch { }
                     sock.ev.removeAllListeners();
                     let i = global.conns.indexOf(sock);
                     if (i < 0) return;
@@ -207,14 +207,14 @@ export async function nakanoJadiBot(options) {
                 console.log(chalk.bold.cyanBright(`\n❒⸺⸺⸺⸺【• SUB-BOT •】⸺⸺⸺⸺❒\n│\n│ 🟢 ${userName} (+${path.basename(pathnakanoJadiBot)}) conectado exitosamente.\n│\n❒⸺⸺⸺【• CONECTADO •】⸺⸺⸺❒`));
                 sock.isInit = true;
                 global.conns.push(sock);
-                
+
                 m?.chat ? await conn.sendMessage(m.chat, { text: args[0] ? `@${m.sender.split('@')[0]}, ya estás conectado, leyendo mensajes entrantes...` : `@${m.sender.split('@')[0]}, genial ya eres parte de nuestra familia de Sub-Bots.`, mentions: [m.sender] }, { quoted: m }) : '';
             }
         }
 
         setInterval(async () => {
             if (!sock.user) {
-                try { sock.ws.close(); } catch (e) {}
+                try { sock.ws.close(); } catch (e) { }
                 sock.ev.removeAllListeners();
                 let i = global.conns.indexOf(sock);
                 if (i < 0) return;
@@ -232,7 +232,7 @@ export async function nakanoJadiBot(options) {
             }
             if (restatConn) {
                 const oldChats = sock.chats;
-                try { sock.ws.close(); } catch {}
+                try { sock.ws.close(); } catch { }
                 sock.ev.removeAllListeners();
                 sock = makeWASocket(connectionOptions, { chats: oldChats });
                 isInit = true;
@@ -266,7 +266,7 @@ function msToTime(duration) {
         seconds = Math.floor((duration / 1000) % 60),
         minutes = Math.floor((duration / (1000 * 60)) % 60),
         hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
-    
+
     hours = (hours < 10) ? '0' + hours : hours;
     minutes = (minutes < 10) ? '0' + minutes : minutes;
     seconds = (seconds < 10) ? '0' + seconds : seconds;

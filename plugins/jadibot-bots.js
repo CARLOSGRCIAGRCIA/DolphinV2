@@ -8,12 +8,12 @@ global.conns.forEach((conn) => {
 if (conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED) {
 uniqueUsers.set(conn.user.jid.replace(/[^0-9]/g, ''), conn.user)}})
 
-const message = Array.from(uniqueUsers.values()).map((user, index) => `┌  ☘︎  *${index + 1}* : @${user.jid.replace(/[^0-9]/g, '')}\n│  ☘︎  *Link* : http://wa.me/${user.jid.replace(/[^0-9]/g, '')}\n└  ☘︎  *Nombre* : ${user.name || 'ＮａｇｉＢｏｔ ☘︎'}\n`
+const message = Array.from(uniqueUsers.values()).map((user, index) => `┌  ☘︎  *${index + 1}* : @${user.jid.replace(/[^0-9]/g, '')}\n│  ☘︎  *Link* : http://wa.me/${user.jid.replace(/[^0-9]/g, '')}\n└  ☘︎  *Nombre* : ${user.name || '𝘿𝙊𝙇𝙋𝙃𝙄𝙉 𝘽𝙊𝙏 ☘︎'}\n`
   ).join('\n')
 
 const replyMessage = message.length === 0 ? "" : message
 const totalUsers = uniqueUsers.size;
-const responseMessage = `${` –  *𝙎𝙐𝘽𝙊𝙏 𝘿𝙀 𝙉𝘼𝙂𝙄𝘽𝙊𝙏𝙑2  ⚽️*\n\n${replyMessage.trim()}`.trim()}`
+const responseMessage = `${` –  *𝙎𝙐𝘽𝙊𝙏 𝘿𝙀 𝘿𝙊𝙇𝙋𝙃𝙄𝙉𝘽𝙊𝙏 🐬*\n\n${replyMessage.trim()}`.trim()}`
 
 let img = await (await fetch(`https://qu.ax/zlere.jpg`)).buffer()
 

@@ -1,5 +1,7 @@
 //código creado x The Carlos 
 //no olviden dejar créditos 
+//modificado para Dolphin Bot - tema marino
+
 const TIEMPO_BLOQUEO_MS = 2 * 24 * 60 * 60 * 1000; // 2 días
 
 export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }) {
@@ -13,7 +15,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }
 
     const bot = global.db?.data?.settings?.[conn.user?.jid] || {};
     const user = global.db?.data?.users?.[m.sender] || {};
-    const gp1 = global.gp1 || 'https://chat.whatsapp.com/tu-enlace-grupo';
+    const gp1 = global.gp1 || 'https://chat.whatsapp.com/EdND7QAHE9w0XPYGx2ZfQw';
 
     // Permitir siempre los comandos exentos y el "code"
     if (exentos.some(word => text.includes(word)) || comandoPermitidoBloqueado.some(cmd => text.startsWith(cmd))) {
@@ -47,15 +49,15 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }
 
       if (user.warnPrivado >= 3) {
         const msgBloqueo = `
-💀 *SENTENCIA CÓSMICA ACTIVADA* 💀
+🐋 *¡INMERSIÓN PROFUNDA ACTIVADA!* 🐋
 ━━━━━━━━━━━━━━━━━━━━━━
-👁️ Usuario: @${m.sender.split('@')[0]}
-📛 Has accedido al grimorio sin autorización.
+🐠 Usuario: @${m.sender.split('@')[0]}
+📛 Has intentado comunicarte con el santuario de delfines sin autorización.
 
-🔒 Estado: *BLOQUEADO POR 2 DÍAS*
-🕰️ Todos los canales mágicos han sido sellados.
+🔒 Estado: *HUNDIDO EN EL ABISMO POR 2 DÍAS*
+🕰️ Todos los canales de comunicación han sido cortados.
 
-💡 Busca redención en el gremio:
+💡 Busca el perdón en el arrecife oficial:
 🌐 ${gp1}
 ━━━━━━━━━━━━━━━━━━━━`.trim();
 
@@ -67,15 +69,15 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }
         return false;
       } else {
         const msgAdvertencia = `
-⚠️ *¡ACCESO RESTRINGIDO!* ⚠️
+🚨 *¡AGUAS PROHIBIDAS!* 🚨
 ━━━━━━━━━━━━━━━━━━━
-🧛‍♂️ @${m.sender.split('@')[0]}, no puedes contactar al grimorio sagrado por privado.
+🐬 @${m.sender.split('@')[0]}, estas navegando en territorio restringido.
 
-🔁 Advertencia ${user.warnPrivado}/3
-🕳️ Al tercer intento, serás sellado por 2 días (privado + grupos).
+🌊 Advertencia ${user.warnPrivado}/3
+⛈️ Al tercer intento, serás arrastrado a las profundidades por 2 días.
 
-📜 Únete al gremio oficial:
-🌐 ${gp1}
+🐋 Únete a la manada oficial:
+🏝️ ${gp1}
 ━━━━━━━━━━━━━━━━━━`.trim();
 
         await m.reply(msgAdvertencia, false, { mentions: [m.sender] });

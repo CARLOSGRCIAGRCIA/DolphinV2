@@ -37,7 +37,7 @@
 termux-setup-storage
 ```
 ```bash
-git clone https://github.com/CARLOSGRCIAGRCIA/DolphinBot.git
+git clone https://github.com/CARLOSGRCIAGRCIA/DolphinV2.git
 ```
 ```bash
 cd DolphinBot
@@ -66,7 +66,7 @@ npm run qr
 
 *clone repository*
 ```bash
-git clone https://github.com/CARLOSGRCIAGRCIA/DolphinBot.git
+git clone https://github.com/CARLOSGRCIAGRCIA/DolphinV2.git
 ```
 ```bash
 cd DolphinBot
