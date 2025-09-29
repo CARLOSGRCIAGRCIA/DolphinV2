@@ -5,7 +5,7 @@ var handler = async (m, { conn, text, participants, isOwner, isAdmin, isSemiAdmi
   if (!m.quoted && !text)
     return conn.reply(
       m.chat,
-      `⚠️ 𝒀𝒐𝒖 𝒎𝒖𝒔𝒕 𝒔𝒆𝒏𝒅 𝒂 𝒕𝒆𝒙𝒕 𝒕𝒐 𝒄𝒓𝒆𝒂𝒕𝒆 𝒂 𝒕𝒂𝒈.`,
+      `⚠️ 𝒀𝒐𝒖 𝒎𝒖𝒔𝒕 𝒔𝒆𝒏𝒅 𝒂 𝒕𝒆𝒙𝒕 𝒕𝒐 𝒄𝒓𝒆𝒂𝒕𝒆 𝒂 𝒕𝒂𝒈`,
       m
     );
 
