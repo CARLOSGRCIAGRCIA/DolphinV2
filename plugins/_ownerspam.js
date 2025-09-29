@@ -36,26 +36,9 @@ var handler = async (m, { conn, text, isROwner }) => {
 
     for (let chat of chats) {
       try {
-        let groupMetadata = await conn.groupMetadata(chat).catch(() => null);
-        if (!groupMetadata) continue;
-
-        let participants = groupMetadata.participants || [];
-        let users = participants.map((u) => conn.decodeJid(u.id));
-
         const mensaje = `${text}\n\n> *_DolphinBot 🐬_*`;
 
-        await conn.relayMessage(
-          chat,
-          {
-            extendedTextMessage: {
-              text: mensaje,
-              contextInfo: {
-                mentionedJid: users,
-              },
-            },
-          },
-          {}
-        );
+        await conn.sendMessage(chat, { text: mensaje });
 
         enviados++;
 
