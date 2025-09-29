@@ -5,7 +5,7 @@ var handler = async (m, { conn, text, participants, isOwner, isAdmin }) => {
   if (!m.quoted && !text)
     return conn.reply(
       m.chat,
-      `⚠️ Debes enviar un texto para hacer un tag.`,
+      `⚠️ 𝒀𝒐𝒖 𝒎𝒖𝒔𝒕 𝒔𝒆𝒏𝒅 𝒂 𝒕𝒆𝒙𝒕 𝒕𝒐 𝒄𝒓𝒆𝒂𝒕𝒆 𝒂 𝒕𝒂𝒈`,
       m
     );
 
@@ -40,7 +40,7 @@ var handler = async (m, { conn, text, participants, isOwner, isAdmin }) => {
     let isMedia = /image|video|sticker|audio/.test(mime);
     let more = String.fromCharCode(8206);
     let masss = more.repeat(850);
-    let htextos = `${text ? text : "*Hola!!*"}\n\n> Dolphin 🐬`;
+    let htextos = `${text ? text : "*𝐇𝐈!!*"}\n\n> Dolphin 🐬`;
     if (isMedia && quoted.mtype === "imageMessage" && htextos) {
       var mediax = await quoted.download?.();
       conn.sendMessage(
