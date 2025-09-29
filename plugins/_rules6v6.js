@@ -4,11 +4,11 @@ import { join } from 'path';
 let handler = async (m, { conn, usedPrefix }) => {
     try {
         const reglasTexto = `
-⚔️ **REGLAS KTS VV2 COMPETITIVO** ⚔️
+⚔️ **REGLAS VV2 320** ⚔️
 
 🔫 **ARMAS PERMITIDAS:**
-✅ MINI UZI | WOODPEKER | AWM (1 max)
-✅ M1887 | M590 (2 max) | TROGON | MP40
+✅ MINI UZI | WOODPEKER | AWM (solo soporte)
+✅ M1887  | TROGON | MP40 
 
 🚫 **PROHIBIDO:**
 ❌ OTHO, WOLFRAHH Y SONIA| Granadas | Draki
@@ -23,7 +23,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 🔄 +4 rondas para reclamos
 📸 Capturas obligatorias
 
-📱 **Contacto:** @kts_competitivo
+📱 **Contacto:** @carlos G
         `.trim();
 
         try {

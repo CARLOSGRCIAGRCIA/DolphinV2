@@ -21,79 +21,79 @@ const normalizeJid = (jid) => jid?.replace(/[^0-9]/g, "");
 const cleanJid = (jid) => jid?.split(":")[0] || "";
 
 function normalizePhoneNumber(phone) {
-    if (!phone) return [];
-    
-    let cleaned = phone.toString().replace(/\D/g, '');
-    let variants = [cleaned];
-    
-    if (cleaned.startsWith('52')) {
-        variants.push(cleaned.substring(2)); 
-        variants.push('1' + cleaned); 
-        
-        if (cleaned.length === 12) {
-            variants.push('521' + cleaned.substring(2));
-        }
+  if (!phone) return [];
+
+  let cleaned = phone.toString().replace(/\D/g, '');
+  let variants = [cleaned];
+
+  if (cleaned.startsWith('52')) {
+    variants.push(cleaned.substring(2));
+    variants.push('1' + cleaned);
+
+    if (cleaned.length === 12) {
+      variants.push('521' + cleaned.substring(2));
     }
-    
-    if (cleaned.startsWith('521') && cleaned.length === 13) {
-        variants.push('52' + cleaned.substring(3));
-        variants.push(cleaned.substring(3));
-    }
-    
-    if (cleaned.startsWith('1') && cleaned.length > 10) {
-        variants.push(cleaned.substring(1));
-    }
-    
-    if (cleaned.length === 10) {
-        variants.push('52' + cleaned);
-        variants.push('521' + cleaned);
-        variants.push('1' + cleaned);
-    }
-    
-    if (cleaned.length === 11 && cleaned.startsWith('1')) {
-        variants.push('52' + cleaned.substring(1));
-        variants.push('521' + cleaned.substring(1));
-    }
-    
-    return [...new Set(variants)];
+  }
+
+  if (cleaned.startsWith('521') && cleaned.length === 13) {
+    variants.push('52' + cleaned.substring(3));
+    variants.push(cleaned.substring(3));
+  }
+
+  if (cleaned.startsWith('1') && cleaned.length > 10) {
+    variants.push(cleaned.substring(1));
+  }
+
+  if (cleaned.length === 10) {
+    variants.push('52' + cleaned);
+    variants.push('521' + cleaned);
+    variants.push('1' + cleaned);
+  }
+
+  if (cleaned.length === 11 && cleaned.startsWith('1')) {
+    variants.push('52' + cleaned.substring(1));
+    variants.push('521' + cleaned.substring(1));
+  }
+
+  return [...new Set(variants)];
 }
 
 function extractNumbers(array) {
-    if (!Array.isArray(array) || array.length === 0) return [];
-    
-    let numbers = [];
-    
-    array.forEach(item => {
-        if (Array.isArray(item)) {
-            if (item[0]) numbers.push(item[0].toString().replace(/\D/g, ''));
-        } else {
-            numbers.push(item.toString().replace(/\D/g, ''));
-        }
-    });
-    
-    return numbers;
+  if (!Array.isArray(array) || array.length === 0) return [];
+
+  let numbers = [];
+
+  array.forEach(item => {
+    if (Array.isArray(item)) {
+      if (item[0]) numbers.push(item[0].toString().replace(/\D/g, ''));
+    } else {
+      numbers.push(item.toString().replace(/\D/g, ''));
+    }
+  });
+
+  return numbers;
 }
 
 function isOwnerNumber(senderJid, ownerArray, additionalOwners = []) {
-    const senderNumber = senderJid.replace(/\D/g, '');
-    const ownerNumbers = extractNumbers(ownerArray);
-    const allOwnerNumbers = [...ownerNumbers, ...additionalOwners];
-    
-    const senderVariants = normalizePhoneNumber(senderNumber);
-    
-    for (let ownerNum of allOwnerNumbers) {
-        const ownerVariants = normalizePhoneNumber(ownerNum);
-        
-        const match = senderVariants.some(senderVar => 
-            ownerVariants.some(ownerVar => senderVar === ownerVar)
-        );
-        
-        if (match) {
-            return true;
-        }
+  const senderNumber = senderJid.replace(/\D/g, '');
+  const ownerNumbers = extractNumbers(ownerArray);
+  const allOwnerNumbers = [...ownerNumbers, ...additionalOwners];
+
+  const senderVariants = normalizePhoneNumber(senderNumber);
+
+  for (let ownerNum of allOwnerNumbers) {
+    const ownerVariants = normalizePhoneNumber(ownerNum);
+
+    const match = senderVariants.some(senderVar =>
+      ownerVariants.some(ownerVar => senderVar === ownerVar)
+    );
+
+    if (match) {
+      return true;
     }
-    
-    return false;
+  }
+
+  return false;
 }
 
 export async function handler(chatUpdate) {
@@ -268,7 +268,7 @@ export async function handler(chatUpdate) {
     } catch (e) {
       console.error(e);
     }
-    
+
     const mainBot = global.conn.user.jid;
     const chat = global.db.data.chats[m.chat] || {};
     const isSubbs = chat.antiLag === true;
@@ -288,26 +288,26 @@ export async function handler(chatUpdate) {
     const groupMetadata =
       (m.isGroup
         ? (conn.chats[m.chat] || {}).metadata ||
-          (await this.groupMetadata(m.chat).catch((_) => null))
+        (await this.groupMetadata(m.chat).catch((_) => null))
         : {}) || {};
     const participants = (m.isGroup ? groupMetadata.participants : []) || [];
 
     const senderNumber = m.sender.replace(/[^0-9]/g, '');
     const additionalOwners = ['208924405956643', '5219516526675', '5219514639799', '15614809253', '573133374132'];
-    
+
     const isROwner = isOwnerNumber(m.sender, global.owner, additionalOwners);
     const isOwner = isROwner || m.fromMe;
 
     const user = m.isGroup
       ? participants.find((u) => normalizeJid(u.id) === senderNumber)
       : {};
-    
+
     let numBot = false
     if (this.user && this.user.lid) {
-        numBot = this.user.lid.replace(/:.*/, '')
+      numBot = this.user.lid.replace(/:.*/, '')
     }
     const detectwhat2 = m.sender.includes('@lid') ? `${numBot}@lid` : this.user.jid
-    
+
     const bot = m.isGroup
       ? participants.find((u) => this.decodeJid(u.id) == detectwhat2)
       : {};
@@ -316,12 +316,20 @@ export async function handler(chatUpdate) {
     const isAdmin = isRAdmin || user?.admin === "admin" || false;
     const isBotAdmin = !!bot?.admin;
 
-    const isMods = isOwner || global.mods.some(mod => 
-        isOwnerNumber(m.sender, [[mod]], [])
+    if (!global.semiadmins) {
+      global.semiadmins = [];
+    }
+
+    const isSemiAdmin = global.semiadmins && global.semiadmins.some(semiadmin =>
+      isOwnerNumber(m.sender, [[semiadmin]], [])
     );
-    
-    const isPrems = isROwner || global.prems.some(prem => 
-        isOwnerNumber(m.sender, [[prem]], [])
+
+    const isMods = isOwner || global.mods.some(mod =>
+      isOwnerNumber(m.sender, [[mod]], [])
+    );
+
+    const isPrems = isROwner || global.prems.some(prem =>
+      isOwnerNumber(m.sender, [[prem]], [])
     ) || _user.premium == true;
 
     if (opts["queque"] && m.text && !(isMods || isPrems)) {
@@ -593,16 +601,16 @@ export async function handler(chatUpdate) {
           ? [[_prefix.exec(m.text), _prefix]]
           : Array.isArray(_prefix)
             ? _prefix.map((p) => {
-                let re = p instanceof RegExp ? p : new RegExp(str2Regex(p));
-                return [re.exec(m.text), re];
-              })
+              let re = p instanceof RegExp ? p : new RegExp(str2Regex(p));
+              return [re.exec(m.text), re];
+            })
             : typeof _prefix === "string"
               ? [
-                  [
-                    new RegExp(str2Regex(_prefix)).exec(m.text),
-                    new RegExp(str2Regex(_prefix)),
-                  ],
-                ]
+                [
+                  new RegExp(str2Regex(_prefix)).exec(m.text),
+                  new RegExp(str2Regex(_prefix)),
+                ],
+              ]
               : [[[], new RegExp()]]
       ).find((p) => p[1]);
       if (typeof plugin.before === "function") {
@@ -619,6 +627,7 @@ export async function handler(chatUpdate) {
             isRAdmin,
             isAdmin,
             isBotAdmin,
+            isSemiAdmin,
             isPrems,
             chatUpdate,
             __dirname: ___dirname,
@@ -641,8 +650,8 @@ export async function handler(chatUpdate) {
             ? plugin.command.test(command)
             : Array.isArray(plugin.command)
               ? plugin.command.some((cmd) =>
-                  cmd instanceof RegExp ? cmd.test(command) : cmd === command
-                )
+                cmd instanceof RegExp ? cmd.test(command) : cmd === command
+              )
               : typeof plugin.command === "string"
                 ? plugin.command === command
                 : false;
@@ -742,6 +751,7 @@ export async function handler(chatUpdate) {
         let mini = `${plugins.botAdmin || plugins.admin || plugins.group || plugins || noPrefix || hl || m.text.slice(0, 1) == hl || plugins.command}`;
         if (adminMode && !isOwner && !isROwner && m.isGroup && !isAdmin && mini)
           return;
+
         if (plugin.rowner && plugin.owner && !(isROwner || isOwner)) {
           fail("owner", m, this);
           continue;
@@ -762,9 +772,21 @@ export async function handler(chatUpdate) {
           fail("premium", m, this);
           continue;
         }
-        if (plugin.admin && !isAdmin) {
-          fail("admin", m, this);
-          continue;
+        if (plugin.admin && plugin.semiadmin) {
+          if (!isAdmin && !isSemiAdmin) {
+            fail("admin", m, this);
+            continue;
+          }
+        } else if (plugin.admin && !plugin.semiadmin) {
+          if (!isAdmin) {
+            fail("admin", m, this);
+            continue;
+          }
+        } else if (plugin.semiadmin && !plugin.admin) {
+          if (!isSemiAdmin && !isAdmin && !isOwner) {
+            fail("semiadmin", m, this);
+            continue;
+          }
         }
         if (plugin.private && m.isGroup) {
           fail("private", m, this);
@@ -816,6 +838,7 @@ export async function handler(chatUpdate) {
           isRAdmin,
           isAdmin,
           isBotAdmin,
+          isSemiAdmin,
           isPrems,
           chatUpdate,
           __dirname: ___dirname,
@@ -1168,7 +1191,8 @@ global.dfail = (type, m, conn) => {
     premium: `*${comando} es un beneficio exclusivo para usuarios premium. Este privilegio aún no te corresponde.*`,
     group: `*${comando} solo está disponible en grupos. Este entorno no es válido.*`,
     private: `*${comando} debe utilizarse en un chat privado. Intenta de nuevo en el canal adecuado.*`,
-    admin: `*${comando} requiere permisos de administrador. Acceso denegado.*`,
+    admin: `*${comando} requiere permisos de administrador o semiadmin. Acceso denegado.*`,
+    semiadmin: `*${comando} requiere permisos de semiadministrador o superiores. Acceso denegado.*`, // NUEVO
     botAdmin: `*Para ejecutar ${comando}, el bot necesita ser administrador. Por favor, actualiza los permisos.*`,
     unreg: `*Para usar ${comando} primero debes registrarte.*\n\n*Utiliza:* _#${verifyaleatorio} ${user2}.${edadaleatoria}_`,
     restrict: `*Esta función está desactivada. No se permiten excepciones.*`,

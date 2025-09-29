@@ -1,11 +1,11 @@
-import { watchFile, unwatchFile } from 'fs' 
+import { watchFile, unwatchFile } from 'fs'
 import chalk from 'chalk'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 import axios from 'axios'
-import moment from 'moment-timezone' 
+import moment from 'moment-timezone'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
@@ -17,39 +17,39 @@ global.confirmCode = ''
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.owner = [
-    ['208924405956643', ' Carlos G🌟', true],        
-    ['5219516526675', ' carlos G', true],     
-    ['5219514639799', ' Bot Number🤖', true],       
-    ['15614809253', 'David RyZe', true],
-    ['573133374132', 'Y S Y ᴏ ᴏʏ ᴏ', true],
+  ['208924405956643', ' Carlos G🌟', true],
+  ['5219516526675', ' carlos G', true],
+  ['5219514639799', ' Bot Number🤖', true],
+  ['15614809253', 'David RyZe', true],
+  ['573133374132', 'Y S Y ᴏ ᴏʏ ᴏ', true],
 ];
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.mods = ['5219516526675', '5219516526675', '5219516526675', '5219514639799']
-global.suittag = ['5219516526675'] 
+global.suittag = ['5219516526675']
 global.prems = ['5219516526675', '50231458537', '573133374132', '522202410659']
-
+global.semiadmins = ['5219516526675']
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.libreria = 'Baileys'
-global.baileys = 'V 6.7.9' 
+global.baileys = 'V 6.7.9'
 global.languaje = 'Español'
 global.vs = '2.2.0'
 global.vsJB = '5.0'
 global.nameqr = 'dolphinqr'
 global.namebot = 'DolphinBot'
 global.sessions = 'Sessions'
-global.jadi = 'JadiBots' 
+global.jadi = 'JadiBots'
 global.DolphinJadibts = true
 
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
 global.ownerLid = [
-    '208924405956643', 
-    '529516526675'
+  '208924405956643',
+  '529516526675'
 ];
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
@@ -95,11 +95,11 @@ global.channel = 'https://whatsapp.com/channel/0029VbAfBzIKGGGKJWp5tT3L'
 global.channel2 = 'https://whatsapp.com/channel/0029VbAfBzIKGGGKJWp5tT3L'
 global.md = 'https://github.com/CARLOSGRCIAGRCIA/DolphinV2'
 global.correo = 'cgarciagarcia729@gmail.com'
-global.cn ='https://whatsapp.com/channel/0029VbAfBzIKGGGKJWp5tT3L';
+global.cn = 'https://whatsapp.com/channel/0029VbAfBzIKGGGKJWp5tT3L';
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.estilo = { key: {  fromMe: false, participant: `0@s.whatsapp.net`, ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) }, message: { orderMessage: { itemCount : -999999, status: 1, surface : 1, message: packname, orderTitle: 'Bang', thumbnail: catalogo, sellerJid: '0@s.whatsapp.net'}}}
+global.estilo = { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) }, message: { orderMessage: { itemCount: -999999, status: 1, surface: 1, message: packname, orderTitle: 'Bang', thumbnail: catalogo, sellerJid: '0@s.whatsapp.net' } } }
 global.ch = {
 }
 
@@ -143,19 +143,19 @@ global.APIs = {
   xyroinee: 'https://api.xyroinee.xyz',
   nekobot: 'https://nekobot.xyz'
 },
-global.APIKeys = {
-  'https://api.xteam.xyz': `${keysxteam}`,
-  'https://api.lolhuman.xyz': 'GataDios',
-  'https://api.neoxr.my.id': `${keysneoxr}`,
-  'https://api.zahwazein.xyz': `${keysxxx}`,
-  'https://api-fgmods.ddns.net': 'fg-dylux',
-  'https://api.botcahx.biz.id': 'Admin',
-  'https://api.fgmods.xyz': `${fgkeysapi}`,
-  'https://api.ibeng.tech/docs': 'tamvan',
-  'https://api.itsrose.site': 'Rs-Zeltoria',
-  'https://api-xcoders.site': 'Frieren',
-  'https://api.xyroinee.xyz': 'uwgflzFEh6'
-};
+  global.APIKeys = {
+    'https://api.xteam.xyz': `${keysxteam}`,
+    'https://api.lolhuman.xyz': 'GataDios',
+    'https://api.neoxr.my.id': `${keysneoxr}`,
+    'https://api.zahwazein.xyz': `${keysxxx}`,
+    'https://api-fgmods.ddns.net': 'fg-dylux',
+    'https://api.botcahx.biz.id': 'Admin',
+    'https://api.fgmods.xyz': `${fgkeysapi}`,
+    'https://api.ibeng.tech/docs': 'tamvan',
+    'https://api.itsrose.site': 'Rs-Zeltoria',
+    'https://api-xcoders.site': 'Frieren',
+    'https://api.xyroinee.xyz': 'uwgflzFEh6'
+  };
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
@@ -163,7 +163,7 @@ global.cheerio = cheerio
 global.fs = fs
 global.fetch = fetch
 global.axios = axios
-global.moment = moment   
+global.moment = moment
 
 global.rpg = {
   emoticon(string) {
@@ -191,8 +191,9 @@ global.rpg = {
     const results = Object.keys(emot).map((v) => [v, new RegExp(v, 'gi')]).filter((v) => v[1].test(string));
     if (!results.length) return '';
     else return emot[results[0][0]];
-  }};
-global.rpgg = { 
+  }
+};
+global.rpgg = {
   emoticon(string) {
     string = string.toLowerCase();
     const emott = {
@@ -218,7 +219,8 @@ global.rpgg = {
     const results = Object.keys(emott).map((v) => [v, new RegExp(v, 'gi')]).filter((v) => v[1].test(string));
     if (!results.length) return '';
     else return emott[results[0][0]];
-  }};  
+  }
+};
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 

@@ -29,7 +29,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 🎯 Activa: Solo ALOK
 🛡️ Pasivas: MOCO, KELLY, MAXIM
 
-💻 **TÉCNICO:** 2 PC por equipo máximo
+💻 2 PC por equipo máximo
         `.trim();
 
         try {

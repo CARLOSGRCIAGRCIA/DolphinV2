@@ -50,7 +50,7 @@ async function ytdl(url, type = 'mp4') {
   };
 
   const videoId = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/|.*embed\/))([^&?/]+)/)?.[1];
-  if (!videoId) throw new Error('ID de video no encontrado');
+  if (!videoId) throw new Error('𝑽𝒊𝒅𝒆𝒐 𝑰𝑫 𝒏𝒐𝒕 𝒇𝒐𝒖𝒏𝒅');
 
   const init = await (await fetch(`https://d.ymcdn.org/api/v1/init?p=y&23=1llum1n471&_=${Date.now()}`, { headers })).json();
   const convert = await (await fetch(`${init.convertURL}&v=${videoId}&f=${type}&_=${Date.now()}`, { headers })).json();
@@ -63,14 +63,14 @@ async function ytdl(url, type = 'mp4') {
     await new Promise(r => setTimeout(r, 1000));
   }
 
-  if (!info || !convert.downloadURL) throw new Error('No se pudo obtener la URL de descarga');
+  if (!info || !convert.downloadURL) throw new Error('𝗧𝗵𝗲 𝗱𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗨𝗥𝗟 𝗰𝗼𝘂𝗹𝗱 𝗻𝗼𝘁 𝗯𝗲 𝗼𝗯𝘁𝗮𝗶𝗻𝗲𝗱.');
 
   // Limitar duración de audio
   if (type === 'mp3' && info.duration > MAX_AUDIO_DURATION) {
-    throw new Error('El audio supera los 6 minutos de duración');
+    throw new Error('𝑻𝒉𝒆 𝒂𝒖𝒅𝒊𝒐 𝒊𝒔 𝒐𝒗𝒆𝒓 𝟔 𝒎𝒊𝒏𝒖𝒕𝒆𝒔 𝒍𝒐𝒏𝒈.');
   }
 
-  return { url: convert.downloadURL, title: info.title || 'Archivo sin título' };
+  return { url: convert.downloadURL, title: info.title || '𝑼𝒏𝒕𝒊𝒕𝒍𝒆𝒅 𝒇𝒊𝒍𝒆' };
 }
 
 async function fetchBuffer(url) {
@@ -82,22 +82,23 @@ async function fetchBuffer(url) {
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   const react = emoji => m.react(emoji);
 
-  if (!text) return conn.reply(m.chat, `⚡️ Uso: ${usedPrefix}${command} <enlace de YouTube>`, m);
+  if (!text) return conn.reply(m.chat, `⚡️ 𝑼𝒔𝒂𝒈𝒆: ${usedPrefix}${command} <𝒀𝒐𝒖𝑻𝒖𝒃𝒆 𝑳𝒊𝒏𝒌>`, m);
 
   if (!isValidYouTubeUrl(text)) {
     await react('🔴');
-    return m.reply('🚫 Enlace de YouTube inválido');
+    return m.reply('🚫 𝑰𝒏𝒗𝒂𝒍𝒊𝒅 𝒀𝒐𝒖𝑻𝒖𝒃𝒆 𝑳𝒊𝒏𝒌');
   }
 
   if (isCooldown || !checkRequestLimit()) {
     await react('🔴');
-    return conn.reply(m.chat, '⏳ Muchas solicitudes. Espera 2 minutos.', m);
+    return conn.reply(m.chat, '⏳ 𝑻𝒐𝒐 𝒎𝒂𝒏𝒚 𝒓𝒆𝒒𝒖𝒆𝒔𝒕𝒔. 𝑾𝒂𝒊𝒕 2 𝒎𝒊𝒏𝒖𝒕𝒆𝒔.', m);
   }
 
   if (isProcessingHeavy) {
     await react('🔴');
-    return conn.reply(m.chat, '⚠️ Ya estoy procesando un archivo pesado. Espera un momento.', m);
+    return conn.reply(m.chat, '⚠️ 𝑨 𝒉𝒆𝒂𝒗𝒚 𝒇𝒊𝒍𝒆 𝒊𝒔 𝒂𝒍𝒓𝒆𝒂𝒅𝒚 𝒃𝒆𝒊𝒏𝒈 𝒑𝒓𝒐𝒄𝒆𝒔𝒔𝒆𝒅. 𝑷𝒍𝒆𝒂𝒔𝒆 𝒘𝒂𝒊𝒕.', m);
   }
+
 
   await react('🔍');
 
@@ -108,14 +109,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const buffer = await fetchBuffer(url);
     const size = buffer.length;
 
-    if (size > MAX_FILE_SIZE) throw new Error('📦 El archivo supera el límite de 280 MB');
+    if (size > MAX_FILE_SIZE) throw new Error('📦 𝑭𝒊𝒍𝒆 𝒆𝒙𝒄𝒆𝒆𝒅𝒔 280𝑴𝑩 𝒍𝒊𝒎𝒊𝒕');
 
     if (size > HEAVY_FILE_THRESHOLD) {
       isProcessingHeavy = true;
-      await conn.reply(m.chat, '💾 Espera, estoy descargando un archivo grande...', m);
+      await conn.reply(m.chat, '💾 𝑫𝒐𝒘𝒏𝒍𝒐𝒂𝒅𝒊𝒏𝒈 𝒂 𝒍𝒂𝒓𝒈𝒆 𝒇𝒊𝒍𝒆, 𝒑𝒍𝒆𝒂𝒔𝒆 𝒘𝒂𝒊𝒕...', m);
     }
 
-    const caption = `*𝑫𝑶𝑳𝑷𝑯𝑰𝑵𝑩𝑶𝑻 𝑫𝑶𝑾𝑵𝑳𝑶𝑨𝑫𝑺*`.trim();
+    const caption = `*𝑫𝑶𝑳𝑷𝑯𝑰𝑵𝑩𝑶𝑻 𝑫𝑶𝑾𝑳𝑶𝑨𝑫𝑺*`.trim();
+
 
     await conn.sendFile(
       m.chat,
@@ -140,8 +142,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.help = ['ytmp4 <url>', 'ytaudio <url>'];
+handler.help = ['ytmp4 <url>', 'ytaudio <url>', 'video <url>'];
 handler.tags = ['descargas'];
-handler.command = ['ytmp4', 'ytaudio'];
+handler.command = ['ytmp4', 'ytaudio', 'video'];
 
-export default handler;
+export default handler; 
